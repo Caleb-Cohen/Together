@@ -1,11 +1,9 @@
-import { useContext } from "react";
-import { FormMoverContext } from "./contexts/FormMoverContext";
+import React from "react";
+import { useFormContext } from "contexts/FormContext";
 
 // This components displays all of the form data for the user to confirm 
 export default function FormConfirm() {
-
-  // This useContext hook syncs userData across UserForm and its sub-components
-  const { userData } = useContext(FormMoverContext);
+  const { formData } = useFormContext();
 
   return (
     <div className="flex flex-col">
@@ -14,7 +12,7 @@ export default function FormConfirm() {
           Title
         </div>
         <div className="bg-white my-2 p-1 flex text-slate-400 border border-gray-200 rounded">
-          <p>{userData["title"]}</p>
+          <p>{formData["title"]}</p>
         </div>
       </div>
 
@@ -23,7 +21,7 @@ export default function FormConfirm() {
           Description
         </div>
         <div className="bg-white my-2 p-1 flex text-slate-400 border border-gray-200 rounded">
-          <p>{userData["description"]}</p>
+          <p>{formData["description"]}</p>
         </div>
       </div>
 
@@ -32,7 +30,7 @@ export default function FormConfirm() {
           Initial Date
         </div>
         <div className="bg-white my-2 p-1 flex text-slate-400 border border-gray-200 rounded">
-          <p>{userData["initialDate"]}</p>
+          <p>{formData["initialDate"]}</p>
         </div>
       </div>
 
@@ -41,7 +39,7 @@ export default function FormConfirm() {
           End Date
         </div>
         <div className="bg-white my-2 p-1 flex text-slate-400 border border-gray-200 rounded">
-          <p>{userData["finalDate"]}</p>
+          <p>{formData["finalDate"]}</p>
         </div>
       </div>
 
@@ -50,7 +48,7 @@ export default function FormConfirm() {
           Discord Name
         </div>
         <div className="bg-white my-2 p-1 flex text-slate-400 border border-gray-200 rounded">
-          <p>{userData["discordName"] || ""}</p>
+          <p>{formData["discordName"] || ""}</p>
         </div>
       </div>
 
@@ -59,7 +57,7 @@ export default function FormConfirm() {
           Location
         </div>
         <div className="bg-white my-2 p-1 flex text-slate-400 border border-gray-200 rounded">
-          <p>{userData["location"]}</p>
+          <p>{formData["location"]}</p>
         </div>
       </div>
 
@@ -68,7 +66,7 @@ export default function FormConfirm() {
           Start Time
         </div>
         <div className="bg-white my-2 p-1 flex text-slate-400 border border-gray-200 rounded">
-          <p>{userData["startTime"]}</p>
+          <p>{formData["startTime"]}</p>
         </div>
       </div>
 
@@ -77,7 +75,7 @@ export default function FormConfirm() {
           End Time
         </div>
         <div className="bg-white my-2 p-1 flex text-slate-400 border border-gray-200 rounded">
-          <p>{userData["endTime"]}</p>
+          <p>{formData["endTime"]}</p>
         </div>
       </div>
 
@@ -94,7 +92,7 @@ export default function FormConfirm() {
                 name="weekly"
                 label="weekly"
                 readOnly
-                checked={!!(userData.recurring.rate === "weekly")}
+                checked={!!(formData.recurring.rate === "weekly")}
                 className="  mx-1 outline-non text-gray-800"
               />
               <p>Weekly</p>
@@ -107,7 +105,7 @@ export default function FormConfirm() {
                 name="noRecurr"
                 label="noRecurr"
                 readOnly
-                checked={!!(userData.recurring.rate === "noRecurr")}
+                checked={!!(formData.recurring.rate === "noRecurr")}
                 className="  mx-1 outline-non text-gray-800"
               />
               <p>No Recurring</p>
@@ -121,7 +119,7 @@ export default function FormConfirm() {
                 name="Monday"
                 id="Monday"
                 readOnly
-                checked={!!userData.recurring.days.includes("Monday")}
+                checked={!!formData.recurring.days.includes("Monday")}
                 className="mx-1 outline-non text-gray-800"
               />
               <p>Monday</p>
@@ -133,7 +131,7 @@ export default function FormConfirm() {
                 name="Tuesday"
                 id="Tuesday"
                 readOnly
-                checked={!!userData.recurring.days.includes("Tuesday")}
+                checked={!!formData.recurring.days.includes("Tuesday")}
                 className=" mx-1 outline-non text-gray-800"
               />
               <p>Tuesday</p>
@@ -145,7 +143,7 @@ export default function FormConfirm() {
                 name="Wednesday"
                 id="Wednesday"
                 readOnly
-                checked={!!userData.recurring.days.includes("Wednesday")}
+                checked={!!formData.recurring.days.includes("Wednesday")}
                 className=" mx-1 outline-non text-gray-800"
               />
               <p>Wednesday</p>
@@ -156,7 +154,7 @@ export default function FormConfirm() {
                 value="Thursday"
                 name="Thursday"
                 readOnly
-                checked={!!userData.recurring.days.includes("Thursday")}
+                checked={!!formData.recurring.days.includes("Thursday")}
                 className="mx-1 outline-non text-gray-800"
               />
               <p>Thursday</p>
@@ -167,7 +165,7 @@ export default function FormConfirm() {
                 value="Friday"
                 name="Friday"
                 readOnly
-                checked={!!userData.recurring.days.includes("Friday")}
+                checked={!!formData.recurring.days.includes("Friday")}
                 className=" mx-1 outline-non text-gray-800"
               />
               <p>Friday</p>
@@ -178,7 +176,7 @@ export default function FormConfirm() {
                 value="Saturday"
                 name="Saturday"
                 readOnly
-                checked={!!userData.recurring.days.includes("Saturday")}
+                checked={!!formData.recurring.days.includes("Saturday")}
                 className="mx-1 outline-non text-gray-800"
               />
               <p>Saturday</p>
@@ -189,7 +187,7 @@ export default function FormConfirm() {
                 value="Sunday"
                 name="Sunday"
                 readOnly
-                checked={!!userData.recurring.days.includes("Sunday")}
+                checked={!!formData.recurring.days.includes("Sunday")}
                 className="mx-1 outline-non text-gray-800"
               />
               <p>Sunday</p>

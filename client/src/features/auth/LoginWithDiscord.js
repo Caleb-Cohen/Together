@@ -1,23 +1,21 @@
-import React, {useContext} from "react";
-import { Context } from "contexts/Context";
-import DataService from "services/dataService";
+import React from "react";
+import { useAuthContext } from 'contexts/AuthContext';
 
 const LoginWithDiscord = () => {
-  const [context, setContext] = useContext(Context)
+  const auth = useAuthContext();
+
+  // If user is not authenticated; Render login button
+  if (!auth.isAuthenticated()) {
+    return (
+      <form action="/auth/discord">
+        <button type="submit">Login with Discord</button>
+      </form>
+    )
+  }  
+  
   return (
     <div>
-      {!context.user && 
-        <form action="/auth/discord">
-          <button type="submit">Login with Discord</button>
-        </form>
-      }
-      {context.user &&
-        <button onClick={() => {
-          DataService.logout()
-          context.user = null
-          setContext({...context})
-        }}>Logout</button>
-      }
+      <button onClick={auth.logout}>Logout</button>
     </div>
   );
 };

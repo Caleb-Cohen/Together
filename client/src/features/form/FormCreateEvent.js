@@ -1,30 +1,51 @@
-import { useContext } from "react";
-import { FormMoverContext } from "./contexts/FormMoverContext";
-import { Context } from "contexts/Context";
+import React, { useEffect } from "react";
+import { useFormContext } from "contexts/FormContext";
+import { useAuthContext } from "contexts/AuthContext";
 
-// This Component gets the Title, Description, and the start/end Dates for the event
 export default function FormCreateEvent() {
 
-  // This useContext hook syncs userData across UserForm and its sub-components
-  const { userData, setUserData } = useContext(FormMoverContext);
+  const auth = useAuthContext();
+  const { formData, setFormData, formCreateEventErrors } = useFormContext();
+  // const {formCompleted, setFormCompleted} = useState();
 
-  // This useContext hook passes in the Discord username of the logged in Discord user (in this case), it might do other things for other parts.
-  const [context] = useContext(Context)
+  useEffect(() => {
+    console.log("Got errors for formCreateEvent:", formCreateEventErrors);
+  }, [formCreateEventErrors]);
 
-  // When something on the form changes, modify userData to have the new stuff from the form
   const handleChange = e => {
+
     const { name, value } = e.target;
-    
-    // TODO: Debug testing what context even is, u better delet this later
-    console.log(context);
-    
-    // Set the userData
-    setUserData({ ...userData, [name]: value, discordName: context.user?.displayName });
+
+    // TODO: These are devs notes, delete this line and possibly the rest before PRing
+    // Using an anonymous function like so allows us to get the previous state of the data and extend it
+    // [name]: value overrides the value at the [name] on which handleChange is called
+    // e.g. if [name] is "title" in the form input, the value of "title" gets changed in formData
+    // the data is then also extended by your Discord username
+    setFormData(prevFormData => ({ ...prevFormData, [name]: value, discordName: auth.user?.displayName }));
   };
 
+
+  //test
+
+  // useEffect(() => { // Debug code
+  //   console.log(formData);
+  // }, [formData])
+
+
   return (
-    // TITLE OF EVENT FIELD
     <div className="flex flex-col">
+      {formCreateEventErrors.map((error, index) => {
+        return (
+          <div class="alert alert-error shadow-lg text-red-700" key="index">
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              <span>{error}</span>
+            </div>
+          </div>
+        )
+        // <p>{error}</p>
+      })}
+
       <div className="w-full mx-2 flex-1">
         <div className="font-bold h-6 mt-3 text-grey-500 text-xs leading-8 uppercase">
           Title
@@ -33,7 +54,7 @@ export default function FormCreateEvent() {
           <input
             type="text"
             onChange={handleChange}
-            value={userData["title"] || ""} // Blank by default, or equal to whatever the userData's value is (same for other fields)
+            value={formData["title"] || ""}
             name="title"
             placeholder="Title"
             className="p-1 px-2 appearance-none outline-non w-full text-gray-800"
@@ -41,58 +62,39 @@ export default function FormCreateEvent() {
         </div>
       </div>
 
-      {/* DESCRIPTION OF EVENT FIELD */}
+        <div className="w-full mx-2 flex-1">
+          <div className="font-bold h-6 mt-3 text-grey-500 text-xs leading-8 uppercase">
+            Description
+          </div>
+          <div className="bg-white my-2 p-1 flex border border-gray-200 rounded">
+            <input
+              type="text"
+              onChange={handleChange}
+              value={formData["description"] || ""}
+              name="description"
+              placeholder="Description"
+              className="p-1 px-2 appearance-none outline-non w-full text-gray-800"
+            />
+          </div>
+        </div>
+
+      {/* LOCATION FIELD */}
       <div className="w-full mx-2 flex-1">
         <div className="font-bold h-6 mt-3 text-grey-500 text-xs leading-8 uppercase">
-          Description
+          Location
         </div>
         <div className="bg-white my-2 p-1 flex border border-gray-200 rounded">
           <input
             type="text"
             onChange={handleChange}
-            value={userData["description"] || ""}
-            name="description"
-            placeholder="Description"
+            value={formData["location"] || ""}
+            name="location"
+            placeholder="Location"
             className="p-1 px-2 appearance-none outline-non w-full text-gray-800"
           />
         </div>
       </div>
 
-      {/* START DATE OF EVENT */}
-      <div className="w-full mx-2 flex-1">
-        <div className="font-bold h-6 mt-3 text-grey-500 text-xs leading-8 uppercase">
-          Start Date
-        </div>
-        <div className="bg-white my-2 p-1 flex border border-gray-200 rounded">
-          <input
-            type="date" // Date input type
-            onChange={handleChange}
-            value={userData["initialDate"] || ""}
-            name="initialDate"
-            placeholder="Start Date"
-            className="p-1 px-2 appearance-none outline-non w-full text-gray-800"
-          />
-        </div>
-      </div>
-
-      {/* END DATE OF EVENT */}
-      <div className="w-full mx-2 flex-1">
-        <div className="font-bold h-6 mt-3 text-grey-500 text-xs leading-8 uppercase">
-          End Date
-        </div>
-        <div className="bg-white my-2 p-1 flex border border-gray-200 rounded">
-          <input
-            type="date"
-            onChange={handleChange}
-            value={userData["finalDate"] || ""}
-            name="finalDate"
-            placeholder="endDate"
-            className="p-1 px-2 appearance-none outline-non w-full text-gray-800"
-          />
-        </div>
-      </div>
-
-      {/* DISCORD USERNAME FIELD */}
       <div className="w-full mx-2 flex-1">
         <div className="font-bold h-6 mt-3 text-grey-500 text-xs leading-8 uppercase">
           Discord Name
@@ -101,7 +103,7 @@ export default function FormCreateEvent() {
           <input
             type="text"
             onChange={handleChange}
-            value={context.user?.displayName || ""}
+            value={auth.user?.displayName || ""}
             name="discordName"
             disabled={true}
             placeholder="Discord Name"

@@ -1,39 +1,49 @@
-import { useContext } from "react";
-import { FormMoverContext } from "./contexts/FormMoverContext";
+import React, {useState, useEffect} from 'react';
+import { useFormContext } from "contexts/FormContext";
 
 // Handles if your events are recurring and on which days of the week they will recur
 export default function FormRecurringDates() {
 
-  // This useContext hook passes in the Discord username of the logged in Discord user (in this case), it might do other things for other parts.
-  const { userData, setUserData } = useContext(FormMoverContext);
-  
-  // Handle change of the checkbox values
-  const handleChange = e => {
+  const { formData, setFormData } = useFormContext();
+  const [recurringDaysHidden, setRecurringDaysHidden] = useState("");
 
-    const { name, value } = e.target;
-    
-    // Handle the rates of occurunces
-    if (value === "rate") {
-      // Ensures that only one of 'weekly', 'monthly', or 'no recurring' can be checked at a time
-      userData.recurring.rate = name;
-    
-    // Handle the rate of the only other thing i.e. days of the week
+  // This handles how the "days of the week" checkboxes should be hidden when the event is non-recurring
+  useEffect(() => {
+    // If Not Recurring, set days of week checkboxes to be invisible
+    if (formData.recurring.rate === "noRecurr") {
+      setRecurringDaysHidden("hidden");
+      formData.recurring.days = []; // Reset days array
     } else {
-
-      // If another day is already checked when we check another day's checkbox, uncheck it
-      if (userData.recurring.days.includes(name)) {
-        userData.recurring.days = userData.recurring.days.filter(day => {
-          return day !== name;
-        });
-      } else {
-        // Otherwise, it's the first one being checked, so just check it
-        userData.recurring.days.push(name);
-      }
+      setRecurringDaysHidden("");
     }
+  }, [formData.recurring, formData.recurring.rate])
 
-    // set the original userData var
-    setUserData({ ...userData });
-  };
+  // This handles the value change when a recurrence rate checkbox is selected
+  const handleDaysOfWeekChange = e => {
+    
+    const { name } = e.target;
+    
+    //if day is already checked, uncheck it
+    if (formData.recurring.days.includes(name)) {
+      formData.recurring.days = formData.recurring.days.filter(day => {
+        return day !== name;
+      });
+    } else {
+      //otherwise check it
+      formData.recurring.days.push(name);
+    }
+    setFormData({ ...formData });
+  }
+
+  // This handles the value change when a day of the week for a weekly recurring event is selected
+  const handleRateChange = e => {
+    const { name } = e.target;
+
+    // Handle the rates of occurunces
+    formData.recurring.rate = name;
+    
+    setFormData({ ...formData });
+  }
 
   return (
     <div className="w-full mx-2 flex-1">
@@ -47,11 +57,11 @@ export default function FormRecurringDates() {
           <div className="flex space-x-4 items-center">
             <input
               type="checkbox"
-              onChange={handleChange}
+              onChange={handleRateChange}
               value="rate"
               name="weekly"
               label="weekly"
-              checked={!!(userData.recurring.rate === "weekly")}
+              checked={!!(formData.recurring.rate === "weekly")}
               className="  mx-1 outline-non text-gray-800"
             />
             <p>Weekly</p>
@@ -61,28 +71,28 @@ export default function FormRecurringDates() {
           <div className="flex space-x-4 items-center">
             <input
               type="checkbox"
-              onChange={handleChange}
+              onChange={handleRateChange}
               value="rate"
               name="noRecurr"
               label="noRecurr"
-              checked={!!(userData.recurring.rate === "noRecurr")}
+              checked={!!(formData.recurring.rate === "noRecurr")}
               className="  mx-1 outline-non text-gray-800"
             />
-            <p>No Recurring</p>
+            <p>Not Recurring</p>
           </div>
         </div>
 
         {/* DAYS OF WEEK TO REPEAT EVENT */}
         {/* MONDAY */}
-        <div className=" mx-7 ">
+        <div className={" mx-7 " + recurringDaysHidden}> {/* This useState changed between "" and "hidden" to hide these checkboxes as needed */}
           <div className="  flex space-x-4 items-center">
             <input
               type="checkbox"
-              onChange={handleChange}
+              onChange={handleDaysOfWeekChange}
               value="Monday"
               name="Monday"
               id="Monday"
-              checked={!!userData.recurring.days.includes("Monday")}
+              checked={!!formData.recurring.days.includes("Monday")}
               className="mx-1 outline-non text-gray-800"
             />
             <p>Monday</p>
@@ -92,11 +102,11 @@ export default function FormRecurringDates() {
           <div className=" flex space-x-4 items-center">
             <input
               type="checkbox"
-              onChange={handleChange}
+              onChange={handleDaysOfWeekChange}
               value="Tuesday"
               name="Tuesday"
               id="Tuesday"
-              checked={!!userData.recurring.days.includes("Tuesday")}
+              checked={!!formData.recurring.days.includes("Tuesday")}
               className=" mx-1 outline-non text-gray-800"
             />
             <p>Tuesday</p>
@@ -106,11 +116,11 @@ export default function FormRecurringDates() {
           <div className=" flex space-x-4 items-center">
             <input
               type="checkbox"
-              onChange={handleChange}
+              onChange={handleDaysOfWeekChange}
               value="Wednesday"
               name="Wednesday"
               id="Wednesday"
-              checked={!!userData.recurring.days.includes("Wednesday")}
+              checked={!!formData.recurring.days.includes("Wednesday")}
               className=" mx-1 outline-non text-gray-800"
             />
             <p>Wednesday</p>
@@ -120,10 +130,10 @@ export default function FormRecurringDates() {
           <div className="flex space-x-4 items-center">
             <input
               type="checkbox"
-              onChange={handleChange}
+              onChange={handleDaysOfWeekChange}
               value="Thursday"
               name="Thursday"
-              checked={!!userData.recurring.days.includes("Thursday")}
+              checked={!!formData.recurring.days.includes("Thursday")}
               className="mx-1 outline-non text-gray-800"
             />
             <p>Thursday</p>
@@ -133,10 +143,10 @@ export default function FormRecurringDates() {
           <div className="flex space-x-4 items-center">
             <input
               type="checkbox"
-              onChange={handleChange}
+              onChange={handleDaysOfWeekChange}
               value="Friday"
               name="Friday"
-              checked={!!userData.recurring.days.includes("Friday")}
+              checked={!!formData.recurring.days.includes("Friday")}
               className=" mx-1 outline-non text-gray-800"
             />
             <p>Friday</p>
@@ -146,10 +156,10 @@ export default function FormRecurringDates() {
           <div className="flex space-x-4 items-center">
             <input
               type="checkbox"
-              onChange={handleChange}
+              onChange={handleDaysOfWeekChange}
               value="Saturday"
               name="Saturday"
-              checked={!!userData.recurring.days.includes("Saturday")}
+              checked={!!formData.recurring.days.includes("Saturday")}
               className="mx-1 outline-non text-gray-800"
             />
             <p>Saturday</p>
@@ -159,10 +169,10 @@ export default function FormRecurringDates() {
           <div className="flex space-x-4 items-center">
             <input
               type="checkbox"
-              onChange={handleChange}
+              onChange={handleDaysOfWeekChange}
               value="Sunday"
               name="Sunday"
-              checked={!!userData.recurring.days.includes("Sunday")}
+              checked={!!formData.recurring.days.includes("Sunday")}
               className="mx-1 outline-non text-gray-800"
             />
             <p>Sunday</p>

@@ -1,17 +1,16 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { formatToLocalTime } from 'utilities/calendar';
-import { Context } from 'contexts/Context';
+import { useModalContext } from 'contexts/ModalContext';
 
 const Event = (props) => {
-  const [context, setContext] = useContext(Context)
+  const modal = useModalContext();
   const confirmedCss = "bg-gray-500";
   const unconfirmedCSss = "border border-gray-500";
   return (
     <button
       onClick={() => {
-        context.event = props.event
-        context.modalOpen = true
-        setContext({...context})
+        modal.setActiveModal(props.event)
+        modal.handleOpen();
       }}
       key={props.event.title}
       className="flex items-center flex-shrink-0 h-5 px-1 text-xs hover:bg-gray-200"

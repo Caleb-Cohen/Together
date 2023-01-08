@@ -1,62 +1,81 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
+import { useFormContext } from "contexts/FormContext";
 
-const FormMover = ({ steps, currentStep }) => {
-  const [newStep, setNewStep] = useState([]);
-  const stepRef = useRef();
-  const updateStep = (stepNumber, steps) => {
-    const newSteps = [...steps];
-    let count = 0;
+// newStep (state) initial data example (fig: 1):
+// {
+//   "description": "Description",
+//   "completed": true,
+//   "highlighted": false,
+//   "selected": true
+// }
 
-    while (count < newSteps.length) {
-      // current step
-      if (count === stepNumber) {
-        newSteps[count] = {
-          ...newSteps[count],
-          highlighted: true,
-          selected: true,
-          completed: true,
-        };
-        count++;
-      }
-      // step completed
-      else if (count < stepNumber) {
-        newSteps[count] = {
-          ...newSteps[count],
-          highlighted: false,
-          selected: true,
-          completed: true,
-        };
-        count++;
-      }
-      // step Pending
-      else {
-        newSteps[count] = {
-          ...newSteps[count],
-          highlighted: false,
-          selected: false,
-          completed: false,
-        };
-        count++;
-      }
-    }
-    return newSteps;
-  };
+const stepStatus = {
+  "current": {
+    highlighted: true,
+    selected: true,
+    completed: true,
+  },
+  "pending": {
+    highlighted: false,
+    selected: false,
+    completed: false,
+  },
+  "completed": {
+    highlighted: false,
+    selected: true,
+    completed: true,
+  }
+}
+
+const FormMover = () => {
+  const { currentStep, totalSteps } = useFormContext();
+  // Creating new steps with array with initial object data (Check above fig: 1)
+  const [newStep, setNewStep] = useState(
+    totalSteps.map((step, index) => ({
+      description: step,
+      completed: false,
+      highlighted: index === 0 ? true : false,
+      selected: index === 0 ? true : false
+    }))
+  );
+
+  // When currentStep changes, update newStep array objects
   useEffect(() => {
-    const stepsState = steps.map((step, index) =>
-      Object.assign(
-        {},
-        {
-          description: step,
-          completed: false,
-          highlighted: index === 0 ? true : false,
-          selected: index === 0 ? true : false,
-        }
-      )
-    );
-    stepRef.current = stepsState;
-    const current = updateStep(currentStep - 1, stepRef.current);
-    setNewStep(current);
-  }, [steps, currentStep]);
+    const updateStepStatus = () => {
+      const stepNumber = currentStep - 1;
+      // Update newStep object's status
+      setNewStep((prevNewStep) =>
+        prevNewStep.map((stepObject, count) => {
+            // Current step
+            if (count === stepNumber) {
+              // Update stepObject with current status
+              return {
+                ...stepObject,
+                ...stepStatus.current
+              };
+            }
+
+            // Completed steps
+            if (count < stepNumber) {
+              // Update stepObject with completed status
+              return {
+                ...stepObject,
+                ...stepStatus.completed
+              };
+            }
+
+            // Pending steps
+            // Update stepObject with pending status
+            return {
+              ...stepObject,
+              ...stepStatus.pending
+            };
+          })
+      );
+    }
+
+    updateStepStatus();
+  }, [currentStep]);
 
   const displaySteps = newStep.map((step, index) => {
     return (

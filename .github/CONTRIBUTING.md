@@ -5,14 +5,22 @@ Welcome to this Beginner-friendly instructional guide for individual contributor
 ## Table of contents
 
 1. [How to get involved](#how-to-get-involved)
-1. [Together GitFlow structure](#together-gitflow-structure)
-1. [Finding issues to work on](#issues)
-1. [Editing code and submitting a pull request](#editing-code-and-submitting-a-pull-request)
+2. [Prequisites](#prerequisites)
+3. [Together GitFlow structure](#together-gitflow-structure)
+4. [Finding issues to work on](#issues)
+5. [Editing code and submitting a pull request](#editing-code-and-submitting-a-pull-request)
 
 ## How to get involved
 
 > Guess what! If you are already a member of 100Devs, one of us can personally walk you through all the steps you will need to contribute code to this project. Please send a message on Discord in the [Together discussion thread (external link)](https://discord.com/channels/735923219315425401/1038482732633825442). We will help you no matter what stage of learning you are on with whatever we can. We can assist you in looking for an issue to address, and if no issue exists that fits, we will create one. 🤠 
 
+## Prerequisites
+Anyone is welcome to join Together. If you're a beginner, we ask that you review the documents below before joining an issue. The React Scribma Course does not need to be completed, but having a basic understanding of React is heavily recommended. 
+
+- [Git & GitHub Crash Course](https://www.youtube.com/watch?v=SWYqp7iY_Tc)
+- [Completed Microsoft Introduction to Github](https://www.microsoft.com/en-us/dev-community/Event/Register?eventId=LearnwithLeonstream_ggNxpTZxIzb_&ocid=aid3038567)
+- [Read the Contributing Documents](https://github.com/Caleb-Cohen/Together/blob/development/.github/CONTRIBUTING.md)
+- [React Scrimba Course](https://scrimba.com/learn/learnreact)
 ## Together GitFlow Structure
 
 This graph approximates the structure of the official repository and some example feature branches.  
@@ -97,7 +105,7 @@ Use the following process to make changes after an issue has been assigned to yo
 #### Forking
 
 1. Navigate to the Together project at https://github.com/Caleb-Cohen/Together.
-2. Click Fork.  
+2. Click Fork. [Difference between forking and cloning a repo](https://www.youtube.com/watch?v=6YQxkxw8nhE)
 ![Screenshot of fork button on GitHub](assets/contributing-fork-button.jpg)
 4. Click Create fork.  
 ![Screenshot of create fork button on GitHub](assets/contributing-create-fork.jpg)

@@ -21,7 +21,7 @@ module.exports = function (passport) {
         // pulls discord username without email, and returns basic information about all the user's current guilds / servers.
         scope: ["identify", "guilds"],
       },
-      function (accessToken, refreshToken, profile, cb) {
+      async function (accessToken, refreshToken, profile, cb) {
         const displayName = `${profile.username}#${profile.discriminator}`;
         const is100Dever = profile.guilds.some(
           server => server.id === "735923219315425401"
@@ -31,25 +31,33 @@ module.exports = function (passport) {
           return cb(null, false, {
             msg: "You must be a member of the 100Devs Discord to use this application",
           });
+        
+        // Check if user exists in DB
+        let user = await User.findById(profile.id).exec();
 
-        User.findById(profile.id, (err, user) => {
-          if (err) return cb(err, user);
-          // Create new user
-          if (!user)
-            return User.create({
+        try {
+          // Create user if it doesn't exist
+          if (!user) {
+            user = await User.create({
               _id: profile.id,
               displayName: displayName,
               avatar: profile.avatar,
               socials: [],
               bio: "",
-            }).then((err, user) => cb(err, user));
-          // Update outdated info
-          user.displayName = displayName;
-          user.avatar = profile.avatar;
-          return user.save((err, user) => {
-            return cb(err, user);
-          });
-        });
+            });
+            return cb(null, user);
+          } else {
+            // it user already exists, update display name and avatar
+            user.displayName = displayName;
+            user.avatar = profile.avatar;
+            const updatedUser = await user.save();
+            return cb(null, updatedUser);
+          }
+        } catch (err) {
+          // do something with error
+          console.log(err);
+          return cb(err, false);
+        }
       }
     )
   );
