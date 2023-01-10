@@ -5,17 +5,18 @@ import Event from "./Event";
 const DayCard = ({ date, events }) => {
   // Styling for bullet point
 
-    //Extracts month in long format from date object
-    const month = format(date, 'MMMM');
+  //Extracts month in long format from date object
+  const month = format(date, "MMMM");
 
-    //Extracts day from date object
-    const day = date.getDate()
+  //Extracts day from date object
+  const day = date.getDate();
 
-    //Checks if current day matches date
-    const sameDayCheck = isSameDay(date, new Date())
+  //Checks if current day matches date
+  const sameDayCheck = isSameDay(date, new Date());
 
-    //Aplies styling if isSameDay is true
-    const currentDayStyles = sameDayCheck === true ? { backgroundColor: "#BFD0D8" } : {};
+  //Aplies styling if isSameDay is true
+  const currentDayStyles =
+    sameDayCheck === true ? { backgroundColor: "#BFD0D8" } : {};
 
   // Sort events by startAt property
   let sortedEvents = [...events].sort(
@@ -23,7 +24,10 @@ const DayCard = ({ date, events }) => {
   );
 
   return (
-    <div className="relative flex flex-col bg-white group" style={currentDayStyles}>
+    <div
+      className="relative flex flex-col bg-white group"
+      style={currentDayStyles}
+    >
       <span className="mx-2 my-1 text-xs font-bold">
         {day} {day === 1 && month}
       </span>
@@ -34,7 +38,7 @@ const DayCard = ({ date, events }) => {
         ))}
       </div>
 
-      <button className="absolute bottom-0 right-0 flex items-center justify-center hidden w-6 h-6 mb-2 mr-2 text-white bg-gray-400 rounded group-hover:flex hover:bg-gray-500">
+      <button className="absolute bottom-0 right-0 items-center justify-center hidden w-6 h-6 mb-2 mr-2 text-white bg-gray-400 rounded group-hover:flex hover:bg-gray-500">
         <svg className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
           <path
             fillRule="evenodd"

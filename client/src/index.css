@@ -2,11 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-.group:hover .group-hover\:flex {
-  display: flex;
+@layer base {
+  body {
+    @apply bg-teal-light;
+  }
 }
 
-.modal {
-  width: clamp(10%, 500px, 50%);
-  min-height: 400px;
+@layer components {
+  .group:hover .group-hover\:flex {
+    display: flex;
+  }
+
+  .modal {
+    width: clamp(10%, 500px, 50%);
+    min-height: 400px;
+  }
+
+  .h-crunch-screen {
+    height: calc(100vh - 5%);
+  }
 }
