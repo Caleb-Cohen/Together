@@ -28,6 +28,7 @@
     "express-flash": "^0.0.2",
     "express-session": "^1.17.1",
     "framer-motion": "^7.6.17",
+    "joi": "^17.7.0",
     "method-override": "^3.0.0",
     "mongodb": "^3.7.3",
     "mongoose": "^5.12.3",
