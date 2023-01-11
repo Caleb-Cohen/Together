@@ -6,6 +6,7 @@ import EventModal from "features/modal/EventModal";
 import { useRoutingContext } from "contexts/RoutingContext";
 import { useAuthContext } from "contexts/AuthContext";
 import { useModalContext } from "contexts/ModalContext";
+import { useFormModalContext } from "contexts/FormModalContext";
 import LandingPage from "features/home/LandingPage";
 import FormProvider from "contexts/FormContext";
 
@@ -13,6 +14,7 @@ function App() {
   const routing = useRoutingContext();
   const auth = useAuthContext();
   const modal = useModalContext();
+  const formModal = useFormModalContext();
   const isAuthenticated = auth.isAuthenticated();
 
   return (
@@ -38,7 +40,9 @@ function App() {
               <EventModal />
             </Modal>
             {auth?.user && 
-              <UserForm />
+              <Modal context={formModal}>
+                <UserForm />
+              </Modal>
             }
           </div>
         </FormProvider>

@@ -24,11 +24,11 @@ const UserForm = () => {
   };
 
   return (
-    <div className="md:w-1/2 mx-auto shadow-xl rounded-2xl pb-2 bg-white">
+    <div className="md:w mx-auto shadow-xl rounded-2xl pb-2 bg-white">
       <div className="container horizontal mt-5">
         <FormMover />
 
-        <div className="my-10 p-10 ">
+        <div className="my-1 p-5">
             {displayStep(currentStep)}
         </div>
       </div>

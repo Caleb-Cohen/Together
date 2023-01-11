@@ -24,21 +24,23 @@ export default function FormConfirm() {
         </div>
       </div>
 
-      <div className="w-full mx-2 flex-1">
-        <div className="font-bold h-6 mt-3 text-grey-500 text-xs leading-8 uppercase">
-          Initial Date
+      <div className="flex flex-row">
+        <div className="w-full mx-2 flex-1">
+          <div className="font-bold h-6 mt-3 text-grey-500 text-xs leading-8 uppercase">
+            Initial Date
+          </div>
+          <div className="bg-white my-2 p-1 flex text-slate-400 border border-gray-200 rounded">
+            <p>{formData["initialDate"]}</p>
+          </div>
         </div>
-        <div className="bg-white my-2 p-1 flex text-slate-400 border border-gray-200 rounded">
-          <p>{formData["initialDate"]}</p>
-        </div>
-      </div>
 
-      <div className="w-full mx-2 flex-1">
-        <div className="font-bold h-6 mt-3 text-grey-500 text-xs leading-8 uppercase">
-          End Date
-        </div>
-        <div className="bg-white my-2 p-1 flex text-slate-400 border border-gray-200 rounded">
-          <p>{formData["finalDate"]}</p>
+        <div className="w-full mx-2 flex-1">
+          <div className="font-bold h-6 mt-3 text-grey-500 text-xs leading-8 uppercase">
+            End Date
+          </div>
+          <div className="bg-white my-2 p-1 flex text-slate-400 border border-gray-200 rounded">
+            <p>{formData["finalDate"]}</p>
+          </div>
         </div>
       </div>
 
@@ -60,23 +62,27 @@ export default function FormConfirm() {
         </div>
       </div>
 
-      <div className="w-full mx-2 flex-1">
-        <div className="font-bold h-6 mt-3 text-grey-500 text-xs leading-8 uppercase">
-          Start Time
+      <div className="flex flex-row">
+        <div className="w-full mx-2 flex-1">
+          <div className="font-bold h-6 mt-3 text-grey-500 text-xs leading-8 uppercase">
+            Start Time
+          </div>
+          <div className="bg-white my-2 p-1 flex text-slate-400 border border-gray-200 rounded">
+            <p>{formData["startTime"]}</p>
+          </div>
         </div>
-        <div className="bg-white my-2 p-1 flex text-slate-400 border border-gray-200 rounded">
-          <p>{formData["startTime"]}</p>
+    
+        <div className="w-full mx-2 flex-1">
+          <div className="font-bold h-6 mt-3 text-grey-500 text-xs leading-8 uppercase">
+            End Time
+          </div>
+          <div className="bg-white my-2 p-1 flex text-slate-400 border border-gray-200 rounded">
+            <p>{formData["endTime"]}</p>
+          </div>
         </div>
       </div>
 
-      <div className="w-full mx-2 flex-1">
-        <div className="font-bold h-6 mt-3 text-grey-500 text-xs leading-8 uppercase">
-          End Time
-        </div>
-        <div className="bg-white my-2 p-1 flex text-slate-400 border border-gray-200 rounded">
-          <p>{formData["endTime"]}</p>
-        </div>
-      </div>
+      
 
       <div className="w-full mx-2 flex-1">
         <div className="font-bold h-6 mt-3 text-grey-500 text-xs leading-8 uppercase">

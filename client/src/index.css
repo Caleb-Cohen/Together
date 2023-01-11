@@ -9,4 +9,5 @@
 .modal {
   width: clamp(10%, 500px, 50%);
   min-height: 400px;
+  max-height: 100%;
 }
